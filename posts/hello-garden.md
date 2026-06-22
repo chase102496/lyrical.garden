@@ -52,4 +52,4 @@ Here's a quote:
 
 And here's how an image would go (once the file actually exists):
 
-![a screenshot](/images/Lullabloom Heart.png)
+![a screenshot](/images/lullabloom_heart.png)
