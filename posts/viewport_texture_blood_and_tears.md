@@ -1,8 +1,8 @@
 ---
-title: Some fun shader insights. Also, pain.
+title: some fun shader insights. also, pain.
 date: 2026-06-26
 image: /images/cinematic_shot_1.jpg
-description: Pain and fun. What better combo is there?
+description: pain and fun. what better combo is there?
 ---
 
 <video width="100%" controls>

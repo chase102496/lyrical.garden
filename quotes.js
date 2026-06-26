@@ -14,6 +14,7 @@ const quotes = [
 	"when in doubt, blog it out.",
 	"stressed, depressed, but well dressed.",
 	"does anyone even read this? read me, damn it.",
+	"a walking man in a running world.",
 ];
 
 function showRandomQuote(elementId) {
