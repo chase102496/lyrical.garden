@@ -1,0 +1,269 @@
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="/style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Some fun shader insights. Also, pain. — lyrical.garden</title>
+	<link rel="icon" type="image/png" href="/images/favicon.png">
+	<meta name="description" content="A quiet corner for music, games, and wandering thoughts.">
+	<meta name="theme-color" content="#101d30">
+</head>
+<body>
+	<div class="lg-root">
+		<nav class="lg-nav">
+			<a href="/blog/index_blog.html" class="lg-card-link">
+				<span class="lg-card-corner">🪀 ⮜ blog</span>
+			</a>
+			<div class="lg-card-icon">
+				<a href="/index.html">
+					<img src="/images/favicon_square.png" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+				</a>
+			</div>
+			<div class="lg-title-block">
+				<h1 class="lg-title-small wave-text">
+					<span>l</span><span>y</span><span>r</span><span>i</span><span>c</span><span>a</span><span>l</span><span class="green">.</span><span>g</span><span>a</span><span>r</span><span>d</span><span>e</span><span>n</span>
+				</h1>
+				<p class="lg-sub-small" id="lg-sub-small"></p>
+			</div>
+			<a href="/index.html" class="lg-card-link">
+				<span class="lg-card-compact">🏠 home</span>
+			</a>
+			<a href="/music/index_music.html" class="lg-card-link">
+				<span class="lg-card-compact">🎵 music</span>
+			</a>
+			<a href="/godot/lyrical.garden.html" class="lg-card-link">
+				<span class="lg-card-compact">🌿 garden</span>
+			</a>
+		</nav>
+
+		<div class="lg-post">
+			<div class="lg-post-header">
+				<img src="/images/cinematic_shot_1.jpg" class="lg-post-thumb" alt="">
+				<h1 class="lg-title">Some fun shader insights. Also, pain.</h1>
+				<p class="lg-sub">Thu 06-25-2026</p>
+				<p class="lg-post-desc">Pain and fun. What better combo is there?</p>
+				<div class="lg-divider"></div>
+			</div>
+			<div class="lg-post-content">
+				<video width="100%" controls>
+    <source src="https://i.imgur.com/11l1ws7.mp4" type="video/mp4">
+</video><p><em>Here&#39;s a pleasant clip of something from my game, <a href="https://store.steampowered.com/app/3635640/Stories_of_Somnia/">Stories of Somnia</a> before things get unpleasant.</em></p>
+<hr>
+<p>I just spent three hours fighting <code>ViewportTexture</code> in Godot and I need to talk about it before the rage leaves my body and I lose the lesson along with it.</p>
+<p>Here&#39;s the setup: I have a custom sprite node that needs to show a live <code>SubViewport</code> render on a mesh&#39;s albedo. Simple. Standard. People do this constantly. So naturally Godot&#39;s <code>ViewportTexture</code> decided this was the hill to make me die on.</p>
+<p>The problem was this texture is repeated across a ton of different enemies, npcs, etc. so it needs to be unique for each one. This bugged me because that meant if I wanted to change one material I had to go back and change the other ones one-by-one.</p>
+<p>Godot naturally does not do well with insanely specific hack-y builds, so it started throwing errors any time I instantiated a scene with this custom sprite. I used to live with it, but today I decided I&#39;ve had enough of its shit.</p>
+<p>Here&#39;s how it looks in <a href="https://godotengine.org/">Godot</a></p>
+<img title="" src="https://i.imgur.com/ZeEzl7H.png" alt="alt text" data-align="center" width="594"><p>Really simple, but you&#39;d be surprised how complicated the front end gets.</p>
+<div class="lg-img-grid"><img src="https://i.imgur.com/B2f0nNg.png" title="" alt="" width="276"><img title="" src="https://i.imgur.com/x0O77LM.png" alt="" width="365" data-align="inline"></div>
+<img title="" src="https://i.imgur.com/Ti07aDV.png" alt="" width="356" data-align="center"><p><em>This shader adds a recolor + outline + glowing noise texture on top of this guy, who is usually this color without all the fancy stuff:</em></p>
+<img src="https://i.imgur.com/nB2BbwV.png" title="" alt="" data-align="center"><p>Yes, yes I am pretentious enough to call my node <em>Better</em>Sprite3D. Because, well, frankly... It is. At least for my 2.5D game where I need fancy recolors, scrolling textures and other stuff:</p>
+<div class="lg-img-grid"><img title="" src="https://i.imgur.com/wpCVL0p.png" alt="" width="231" data-align="inline"><img title="" src="https://i.imgur.com/7EMDabL.png" alt="" width="303"></div>
+<div class="lg-img-grid"><img src="https://i.imgur.com/Pt8Elfg.png" title="" alt="" width="280"><img src="https://i.imgur.com/RYHz31C.png" title="" alt="" width="230"></div>
+<p>This is all done with base textures that I never touch or re-animate or <em>anything.</em> All of this is done live, which means I can recolor sprites on-the-fly too! Super versatile, and mostly the result of my lazy butt not wanting to commit to one color of the bush of a dude who players will see for 5 seconds approximately.</p>
+<hr>
+<p>ANYWHO, back to the point: insanity because I don&#39;t like seeing errors in the console when I&#39;m trying to actually check for <em>real errors</em> not <em>drama queens</em>.</p>
+<p>I spent about 4 hours trying to fix texture issues. The problem is that Godot&#39;s materials are built for reusability, so when you try to make them unique per-mesh things get complicated really quick. Here&#39;s the code for the BetterAnimatedSprite3D:</p>
+<pre><code class="language-gdscript">@icon(&quot;res://Resources/Textures/2D/UI/node icons/node_3D/icon_hitbox.png&quot;)
+@tool
+class_name BetterAnimatedSprite3D
+extends BetterSprite
+
+@export_group(&quot;Pointers&quot;)
+@export var my_animated_sprite_2d : AnimatedSprite2D
+@export var my_viewport : SubViewport
+@export var my_mesh : MeshInstance3D
+
+@export_category(&quot;Features&quot;)
+@export var material_override_3d : StandardMaterial3D:
+    set(value):
+        material_override_3d = value
+@export var material_overlay_3d : Material:
+    set(value):
+        material_overlay_3d = value
+        my_mesh.material_overlay = value
+@export var material_override_2d : Material:
+    set(value):
+        if !Engine.is_editor_hint():
+            material_override_2d = value.duplicate()
+        else:
+            material_override_2d = value
+
+        my_animated_sprite_2d.material = material_override_2d
+@export var transparency_type : BaseMaterial3D.Transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR:
+    set(value):
+        transparency_type = value
+        var mat : StandardMaterial3D = _material() as StandardMaterial3D
+        if !mat:
+            return
+        mat.transparency = value
+@export var distance_fade_mode : BaseMaterial3D.DistanceFadeMode = BaseMaterial3D.DistanceFadeMode.DISTANCE_FADE_DISABLED:
+    set(value):
+        var mat : Material = _material()
+        if mat:
+            distance_fade_mode = value
+            mat.distance_fade_mode = value
+@export_range(0.0,50.0,0.1) var distance_fade_min : float = 2.0:
+    set(value):
+        if distance_fade_mode == BaseMaterial3D.DistanceFadeMode.DISTANCE_FADE_DISABLED:
+            return
+        var mat : Material = _material()
+        if mat:
+            distance_fade_min = value
+            mat.distance_fade_min_distance = value
+@export_range(0.0,50.0,0.1) var distance_fade_max : float = 3.5:
+    set(value):
+        if distance_fade_mode == BaseMaterial3D.DistanceFadeMode.DISTANCE_FADE_DISABLED:
+            return
+        var mat : Material = _material()
+        if mat:
+            distance_fade_max = value
+            mat.distance_fade_max_distance = value
+
+@export_category(&quot;Emission&quot;)
+@export var emission_color : Color = Color.WHITE:
+    set(value):
+
+        if value == Color.BLACK:
+            return
+
+        emission_color = value
+
+        if emission == 0.0:
+            pass
+
+        if my_animated_sprite_2d:
+            if emission != 0.0:
+                my_animated_sprite_2d.modulate = value
+            else:
+                my_animated_sprite_2d.modulate = Color.WHITE
+
+        var mat : Material = _material()
+
+        if mat and mat is StandardMaterial3D:
+            mat.emission = value
+        else:
+            push_error(&quot;No material found for set_emission_color!&quot;)
+@export_range(0.0,100.0,0.1) var emission : float = 0.0:
+    set(value):
+
+        emission = value
+
+        var mat : Material = _material()
+
+        if mat and mat is StandardMaterial3D:
+            mat.emission_energy_multiplier = value
+            mat.emission_enabled = (emission != 0.0)
+            emission_color = emission_color #Update to stored info
+        else:
+            push_error(&quot;No material found for set_emission!&quot;)
+
+@export_category(&quot;AnimatedSprite3D&quot;)
+@export var sprite_frames : SpriteFrames = null:
+    set(value):
+        sprite_frames = value
+        if !sprite_frames:
+            animation = &quot;&quot;
+            frame = 0
+        _update(my_animated_sprite_2d,&quot;sprite_frames&quot;)
+@export var animation: StringName:
+    set(value):
+
+        if sprite_frames:
+            animation = value
+            if sprite_frames.has_animation(value) and my_animated_sprite_2d.sprite_frames.has_animation(value):
+                _update(my_animated_sprite_2d, &quot;animation&quot;)
+        else:
+            animation = &quot;&quot;
+@export var play_animation : bool = false:
+    set(value):
+        play_animation = value
+        if value:
+            my_animated_sprite_2d.play(animation,speed_scale)
+        else:
+            my_animated_sprite_2d.stop()
+@export var frame : int = 0:
+    set(value):
+        frame = value
+        my_animated_sprite_2d.set_frame(value)
+        #if sprite_frames and animation:
+            #_update(my_animated_sprite_2d,&quot;frame&quot;)
+            #frame = clamp(value,0,sprite_frames.get_frame_count(animation) - 1)
+        #else:
+            #frame = 0
+@export var speed_scale : float = 1.0:
+    set(value):
+        speed_scale = value
+        _update(my_animated_sprite_2d,&quot;speed_scale&quot;)
+
+@export_group(&quot;SpriteBase3D&quot;)
+@export var offset : Vector2 = Vector2.ZERO:
+    set(value):
+        offset = value
+        if my_mesh and my_viewport:
+            my_mesh.position.x = offset.x * 0.01 # Pixel conversion
+            my_mesh.position.y = offset.y * 0.01 # Pixel conversion
+        _update()
+@export var flip_h : bool = false:
+    set(value):
+        flip_h = value
+        _update(my_animated_sprite_2d,&quot;flip_h&quot;)
+@export var flip_v : bool = false:
+    set(value):
+        flip_v = value
+        _update(my_animated_sprite_2d,&quot;flip_v&quot;)
+@export_range(0.0,1.0,0.01) var transparency : float = 0.0:
+    set(value):
+        transparency = value
+        my_mesh.transparency = value
+        _update()
+@export var no_depth_test : bool = false:
+    set(value):
+        no_depth_test = value
+        if my_mesh:
+            _material().no_depth_test = value
+@export var sorting_offset : int = 0:
+    set(value):
+        sorting_offset = value
+        my_mesh.sorting_offset = value
+        _update()
+@export var stencil_mode : BaseMaterial3D.StencilMode = BaseMaterial3D.StencilMode.STENCIL_MODE_DISABLED:
+    set(value):
+        stencil_mode = value
+        if my_mesh:
+            _material().stencil_mode = value
+@export var stencil_color : Color = Color.WHITE:
+    set(value):
+        if stencil_mode in [BaseMaterial3D.StencilMode.STENCIL_MODE_OUTLINE,BaseMaterial3D.StencilMode.STENCIL_MODE_XRAY]:
+            stencil_color = value
+            if my_mesh:
+                _material().stencil_color = value
+
+var emission_tween : Tween
+enum emission_type {
+    PULSE_IN,
+    PULSE_OUT
+}
+...
+</code></pre>
+<p>Anyways I spent 4 hours screaming into the void all to find out I didn&#39;t need a special solution and Godot had a built-in one:</p>
+<pre><code class="language-gdscript">Viewport.get_texture()
+</code></pre>
+<p>Let this be your reminder if you ever need ViewportTextures created on-the-fly. Cause I really reinvented the wheel. Like 14 times. And thought I was smart.</p>
+<p>That&#39;s it. That&#39;s the whole fix. The <code>SubViewport</code> already has a method that just hands you its own texture directly. No path. No string to resolve. No editor-versus-runtime divergence because there&#39;s no resolution step to diverge. The viewport already knows what its own texture is. It has known the entire time. I just never asked it directly — I went through <code>viewport_path</code> because that&#39;s the property everyone shows you first, and then spent three hours debugging the indirection instead of skipping it.</p>
+<p><code>NodePath</code> exists for when you don&#39;t have a live reference to the node and need to find it later from a string. I had a live reference to the viewport node sitting in an <code>@export var</code> the entire time. I built a bridge to cross a river I was already standing on the other side of.</p>
+<p>Gamedev is the path to insanity and I walked every step of it on purpose, for a one-liner.</p>
+<p>Commit title: <em>Cleaned up all the errors. What did it cost me? Blood. Blood and tears.</em></p>
+
+			</div>
+		</div>
+
+		<div class="lg-footer">© lyrical.garden (but not actually) 🌱</div>
+	</div>
+</body>
+</html>
+
+<script src="/copy_buttons.js"></script>
+<script src="/quotes.js"></script>
+<script>showRandomQuote("lg-sub-small");</script>
+<script src="/lightbox.js"></script>

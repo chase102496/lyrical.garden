@@ -1,4 +1,21 @@
 /* ==========================================================================
+   COLOR PALETTE
+   ========================================================================== */
+
+/*
+   #101d30   — deep night blue, main background
+   #07951b   — garden green, accents/borders/buttons (often used with
+               alpha suffixes like 18/22/30/33/44/55/66 for transparency)
+   #ffe7c3   — pale cream, primary text color (also used with alpha
+               suffixes like 44/88/aa for transparency)
+   #eec482   — warm amber, secondary text / links / subtitles
+   #ffa599   — soft coral pink, hover states / highlighted strong text
+   #331f00   — dark brown, code block background
+   #b3b300   — olive yellow, hover border accent on cards
+   rgba(16, 29, 48, 0.92) — lightbox overlay (same as #101d30, just with opacity)
+*/
+
+/* ==========================================================================
    FONT DECLARATIONS
    ========================================================================== */
 
@@ -63,6 +80,34 @@ body {
     color: #07951b;
 }
 
+
+/* ==========================================================================
+   LIGHTBOX (Magnifying Glass/Zoom on photos)
+   ========================================================================== */
+
+.lg-lightbox-overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(16, 29, 48, 0.92);
+	z-index: 1000;
+	justify-content: center;
+	align-items: center;
+	cursor: zoom-out;
+}
+
+.lg-lightbox-overlay.active {
+	display: flex;
+}
+
+.lg-lightbox-overlay img {
+	max-width: 90vw;
+	max-height: 90vh;
+	border-radius: 12px;
+}
 
 /* ==========================================================================
    WAVE TEXT ANIMATION
@@ -229,7 +274,7 @@ body {
    ========================================================================== */
 
 .lg-post {
-	max-width: 800px;
+	max-width: 900px;
 	margin: 0 auto;
 	padding: 2rem;
 	text-align: left;
@@ -250,8 +295,20 @@ body {
 .lg-post-content {
 	font-weight: 400;
 	font-family: 'DM Mono', monospace;
-	line-height: 1;
+	line-height: 1.5;
 	margin-top: 2rem;
+}
+
+.lg-post-content hr {
+	border: none;
+	height: 1px;
+	background: #07951b;
+	width: 60px;
+	margin: 2rem auto;
+}
+
+.lg-post-content img {
+	cursor: zoom-in;
 }
 
 .lg-post-content p {
@@ -270,15 +327,41 @@ body {
 .lg-post-content img {
 	display: block;
 	max-width: 100%;
-	width: 300px;
+	width: 400px;
 	margin: 1.5rem auto;
 	border-radius: 12px;
-	background: #ffe7c3;
+	background: #331f00;
 	padding: 0.5rem;
+}
+
+.lg-img-grid {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1rem;
+	margin: 1.5rem 0;
+}
+
+.lg-img-grid img {
+	max-width: 100%;
+	width: auto;
+	height: auto;
+	max-height: 300px;
+	flex: 0 1 auto;
+	margin: 0;
+	object-fit: contain;
 }
 
 .lg-post-content strong {
 	color: #ffa599;
+}
+
+.lg-post-content a {
+	color: #ffa599;
+}
+
+.lg-post-content a:hover {
+	color: #07951b;
 }
 
 .lg-post-desc {
