@@ -52,18 +52,17 @@
     <source src="https://i.imgur.com/11l1ws7.mp4" type="video/mp4">
 </video><p><em>Here&#39;s a pleasant clip of something from my game, <a href="https://store.steampowered.com/app/3635640/Stories_of_Somnia/">Stories of Somnia</a> before things get unpleasant.</em></p>
 <hr>
-<p>I just spent three hours fighting <code>ViewportTexture</code> in Godot and I need to talk about it before the rage leaves my body and I lose the lesson along with it.</p>
-<p>Here&#39;s the setup: I have a custom sprite node that needs to show a live <code>SubViewport</code> render on a mesh&#39;s albedo. Simple. Standard. People do this constantly. So naturally Godot&#39;s <code>ViewportTexture</code> decided this was the hill to make me die on.</p>
-<p>The problem was this texture is repeated across a ton of different enemies, npcs, etc. so it needs to be unique for each one. This bugged me because that meant if I wanted to change one material I had to go back and change the other ones one-by-one.</p>
-<p>Godot naturally does not do well with insanely specific hack-y builds, so it started throwing errors any time I instantiated a scene with this custom sprite. I used to live with it, but today I decided I&#39;ve had enough of its shit.</p>
-<p>Here&#39;s how it looks in <a href="https://godotengine.org/">Godot</a></p>
-<img title="" src="https://i.imgur.com/ZeEzl7H.png" alt="alt text" data-align="center" width="594"><p>Really simple, but you&#39;d be surprised how complicated the front end gets.</p>
+<p>I just spent three hours fighting <a href="https://godotengine.org/">Godot</a> and I need to talk about it before the rage leaves my body and I lose the lesson along with it.</p>
+<p>Here&#39;s the setup: I have a custom sprite node that needs to show something <em>2D</em> in a <em>3D World.</em> In <a href="https://godotengine.org/">Godot</a>, this is done with a <code>SubViewport</code>. Simple. Standard. People do this all the time. So naturally <a href="https://godotengine.org/">Godot</a> decided this was the hill to make me die on.</p>
+<p>Every. Single. Time. It launched the game and created a new scene, I&#39;d get an error (despite everything working perfectly). And today I said, I&#39;m done with your shit, <a href="https://godotengine.org/">Godot</a>.</p>
+<p>Here&#39;s how it looks in-editor:</p>
+<img title="" src="https://i.imgur.com/ZeEzl7H.png" alt="alt text" data-align="center" width="594"><p>Really simple, but you&#39;d be surprised how complicated the front end gets:</p>
 <div class="lg-img-grid"><img src="https://i.imgur.com/B2f0nNg.png" title="" alt="" width="276"><img title="" src="https://i.imgur.com/x0O77LM.png" alt="" width="365" data-align="inline"></div>
 <img title="" src="https://i.imgur.com/Ti07aDV.png" alt="" width="356" data-align="center"><p><em>This shader adds a recolor + outline + glowing noise texture on top of this guy, who is usually this color without all the fancy stuff:</em></p>
-<img src="https://i.imgur.com/nB2BbwV.png" title="" alt="" data-align="center"><p>Yes, yes I am pretentious enough to call my node <em>Better</em>Sprite3D. Because, well, frankly... It is. At least for my 2.5D game where I need fancy recolors, scrolling textures and other stuff:</p>
+<img src="https://i.imgur.com/nB2BbwV.png" title="" alt="" data-align="center"><p>And yes, I am pretentious enough to call my node <em>Better</em>Sprite3D. Because, well, frankly... It is. At least for my 2.5D game where I need fancy recolors, scrolling textures and other stuff:</p>
 <div class="lg-img-grid"><img title="" src="https://i.imgur.com/wpCVL0p.png" alt="" width="231" data-align="inline"><img title="" src="https://i.imgur.com/7EMDabL.png" alt="" width="303"></div>
 <div class="lg-img-grid"><img src="https://i.imgur.com/Pt8Elfg.png" title="" alt="" width="280"><img src="https://i.imgur.com/RYHz31C.png" title="" alt="" width="230"></div>
-<p>This is all done with base textures that I never touch or re-animate or <em>anything.</em> All of this is done live, which means I can recolor sprites on-the-fly too! Super versatile, and mostly the result of my lazy butt not wanting to commit to one color of the bush of a dude who players will see for 5 seconds approximately.</p>
+<p>This is all done with base textures that I never touch or re-animate or <em>anything.</em> All of this is done live, which means I can recolor sprites on-the-fly too! Super versatile, and mostly the result of my lazy butt not wanting to commit to one color of a dude who players will see for 30 seconds approximately before completely obliterating them.</p>
 <hr>
 <p>ANYWHO, back to the point: insanity because I don&#39;t like seeing errors in the console when I&#39;m trying to actually check for <em>real errors</em> not <em>drama queens</em>.</p>
 <p>I spent about 4 hours trying to fix texture issues. The problem is that Godot&#39;s materials are built for reusability, so when you try to make them unique per-mesh things get complicated really quick. Here&#39;s the code for the BetterAnimatedSprite3D:</p>
@@ -249,14 +248,13 @@ enum emission_type {
 }
 ...
 </code></pre>
-<p>Anyways I spent 4 hours screaming into the void all to find out I didn&#39;t need a special solution and Godot had a built-in one:</p>
+<p>Anyways I spent about 4 hours screaming into the void all to find out I didn&#39;t need a special solution and Godot had a built-in one:</p>
 <pre><code class="language-gdscript">Viewport.get_texture()
 </code></pre>
 <p>Let this be your reminder if you ever need ViewportTextures created on-the-fly. Cause I really reinvented the wheel. Like 14 times. And thought I was smart.</p>
-<p>That&#39;s it. That&#39;s the whole fix. The <code>SubViewport</code> already has a method that just hands you its own texture directly. No path. No string to resolve. No editor-versus-runtime divergence because there&#39;s no resolution step to diverge. The viewport already knows what its own texture is. It has known the entire time. I just never asked it directly — I went through <code>viewport_path</code> because that&#39;s the property everyone shows you first, and then spent three hours debugging the indirection instead of skipping it.</p>
-<p><code>NodePath</code> exists for when you don&#39;t have a live reference to the node and need to find it later from a string. I had a live reference to the viewport node sitting in an <code>@export var</code> the entire time. I built a bridge to cross a river I was already standing on the other side of.</p>
-<p>Gamedev is the path to insanity and I walked every step of it on purpose, for a one-liner.</p>
-<p>Commit title: <em>Cleaned up all the errors. What did it cost me? Blood. Blood and tears.</em></p>
+<p>In my experience, two years in, all programming problems go like this:</p>
+<p>Simple &gt; Complicated &gt; Simple</p>
+<p>But, what do I know? I&#39;m just a guy building a game, screaming into the void.</p>
 
 			</div>
 		</div>

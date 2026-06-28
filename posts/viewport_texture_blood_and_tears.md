@@ -9,31 +9,23 @@ description: pain and fun. what better combo is there?
     <source src="https://i.imgur.com/11l1ws7.mp4" type="video/mp4">
 </video>
 
-
-
 *Here's a pleasant clip of something from my game, [Stories of Somnia](https://store.steampowered.com/app/3635640/Stories_of_Somnia/) before things get unpleasant.*
 
 ---
 
-I just spent three hours fighting `ViewportTexture` in Godot and I need to talk about it before the rage leaves my body and I lose the lesson along with it.
+I just spent three hours fighting [Godot](https://godotengine.org/) and I need to talk about it before the rage leaves my body and I lose the lesson along with it.
 
-Here's the setup: I have a custom sprite node that needs to show a live `SubViewport` render on a mesh's albedo. Simple. Standard. People do this constantly. So naturally Godot's `ViewportTexture` decided this was the hill to make me die on.
+Here's the setup: I have a custom sprite node that needs to show something *2D* in a *3D World.* In [Godot](https://godotengine.org/), this is done with a `SubViewport`. Simple. Standard. People do this all the time. So naturally [Godot](https://godotengine.org/) decided this was the hill to make me die on.
 
-The problem was this texture is repeated across a ton of different enemies, npcs, etc. so it needs to be unique for each one. This bugged me because that meant if I wanted to change one material I had to go back and change the other ones one-by-one.
+Every. Single. Time. It launched the game and created a new scene, I'd get an error (despite everything working perfectly). And today I said, I'm done with your shit, [Godot](https://godotengine.org/).
 
-Godot naturally does not do well with insanely specific hack-y builds, so it started throwing errors any time I instantiated a scene with this custom sprite. I used to live with it, but today I decided I've had enough of its shit.
-
-Here's how it looks in [Godot](https://godotengine.org/)
+Here's how it looks in-editor:
 
 <img title="" src="https://i.imgur.com/ZeEzl7H.png" alt="alt text" data-align="center" width="594">
 
-Really simple, but you'd be surprised how complicated the front end gets.
-
-
+Really simple, but you'd be surprised how complicated the front end gets:
 
 <img src="https://i.imgur.com/B2f0nNg.png" title="" alt="" width="276"><img title="" src="https://i.imgur.com/x0O77LM.png" alt="" width="365" data-align="inline">
-
-
 
 <img title="" src="https://i.imgur.com/Ti07aDV.png" alt="" width="356" data-align="center">
 
@@ -41,13 +33,13 @@ Really simple, but you'd be surprised how complicated the front end gets.
 
 <img src="https://i.imgur.com/nB2BbwV.png" title="" alt="" data-align="center">
 
-Yes, yes I am pretentious enough to call my node *Better*Sprite3D. Because, well, frankly... It is. At least for my 2.5D game where I need fancy recolors, scrolling textures and other stuff:
+And yes, I am pretentious enough to call my node *Better*Sprite3D. Because, well, frankly... It is. At least for my 2.5D game where I need fancy recolors, scrolling textures and other stuff:
 
 <img title="" src="https://i.imgur.com/wpCVL0p.png" alt="" width="231" data-align="inline"><img title="" src="https://i.imgur.com/7EMDabL.png" alt="" width="303">
 
 <img src="https://i.imgur.com/Pt8Elfg.png" title="" alt="" width="280"><img src="https://i.imgur.com/RYHz31C.png" title="" alt="" width="230">
 
-This is all done with base textures that I never touch or re-animate or *anything.* All of this is done live, which means I can recolor sprites on-the-fly too! Super versatile, and mostly the result of my lazy butt not wanting to commit to one color of the bush of a dude who players will see for 5 seconds approximately.
+This is all done with base textures that I never touch or re-animate or *anything.* All of this is done live, which means I can recolor sprites on-the-fly too! Super versatile, and mostly the result of my lazy butt not wanting to commit to one color of a dude who players will see for 30 seconds approximately before completely obliterating them.
 
 ---
 
@@ -239,7 +231,7 @@ enum emission_type {
 ...
 ```
 
-Anyways I spent 4 hours screaming into the void all to find out I didn't need a special solution and Godot had a built-in one:
+Anyways I spent about 4 hours screaming into the void all to find out I didn't need a special solution and Godot had a built-in one:
 
 ```gdscript
 Viewport.get_texture()
@@ -247,10 +239,8 @@ Viewport.get_texture()
 
 Let this be your reminder if you ever need ViewportTextures created on-the-fly. Cause I really reinvented the wheel. Like 14 times. And thought I was smart.
 
-That's it. That's the whole fix. The `SubViewport` already has a method that just hands you its own texture directly. No path. No string to resolve. No editor-versus-runtime divergence because there's no resolution step to diverge. The viewport already knows what its own texture is. It has known the entire time. I just never asked it directly — I went through `viewport_path` because that's the property everyone shows you first, and then spent three hours debugging the indirection instead of skipping it.
+In my experience, two years in, all programming problems go like this:
 
-`NodePath` exists for when you don't have a live reference to the node and need to find it later from a string. I had a live reference to the viewport node sitting in an `@export var` the entire time. I built a bridge to cross a river I was already standing on the other side of.
+Simple > Complicated > Simple
 
-Gamedev is the path to insanity and I walked every step of it on purpose, for a one-liner.
-
-Commit title: *Cleaned up all the errors. What did it cost me? Blood. Blood and tears.*
+But, what do I know? I'm just a guy building a game, screaming into the void.

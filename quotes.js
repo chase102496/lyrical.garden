@@ -7,7 +7,7 @@ const quotes = [
 	"don't gobblefunk around with words.",
 	"reject norms, bake bread upside down.",
 	"sometimes you just gotta go welp",
-	"bloggy bloggy blog. Who came up with that word? Lmao",
+	"bloggy bloggy blog.",
 	"blogs are just infodumps to the void",
 	"wash, scrub, avoid the club.",
 	"I occasionally eat food.",
@@ -15,6 +15,8 @@ const quotes = [
 	"stressed, depressed, but well dressed.",
 	"does anyone even read this? read me, damn it.",
 	"a walking man in a running world.",
+	"Big thoughts, big ideas, small actions, long time.",
+	"Thou shalt cook, but musn't not be cooketh'd.",
 ];
 
 function showRandomQuote(elementId) {
