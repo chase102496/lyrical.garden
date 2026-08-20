@@ -2,7 +2,7 @@
 	<link rel="stylesheet" href="/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎵 lyrical.garden</title>
+    <title>🪀 lyrical.garden</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
     <meta name="description" content="A quiet corner for music, games, and wandering thoughts.">
     <meta name="theme-color" content="#101d30">
@@ -17,7 +17,6 @@
 						<img src="/images/favicon_square.png" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
 					</a>
 				</div>
-
 				<div class="lg-title-block">
 					<h1 class="lg-title-small wave-text">
 						<span>l</span><span>y</span><span>r</span><span>i</span><span>c</span><span>a</span><span>l</span><span class="green">.</span><span>g</span><span>a</span><span>r</span><span>d</span><span>e</span><span>n</span>
@@ -26,32 +25,31 @@
 				</div>
 			</div>
 
-			<a href="/index.html" class="lg-card-link">
+			<a href="/" class="lg-card-link">
 				<span class="lg-card-compact">🏠 home</span>
 			</a>
-			<a href="/blog/index_blog.html" class="lg-card-link">
-				<span class="lg-card-compact">🪀 blog</span>
+			<a href="/music/" class="lg-card-link">
+				<span class="lg-card-compact">🎵 music</span>
 			</a>
 			<a href="/godot/lyrical.garden.html" class="lg-card-link">
 				<span class="lg-card-compact">🌿 garden</span>
 			</a>
 		</nav>
 		
-		<!-- ReelCrafter reel: Demo Reel -->
-		<iframe
-		 width="70%"
-		 height="400"
-		 scrolling="no"
-		 frameborder="no"
-		 src="https://play.reelcrafter.com/embed/c73736bd-647c-4d76-8970-a5eb0f04432f">
-		</iframe>
-
+		<div class="lg-cards">
+				
+			<div id="substack-feed">
+			  <div class="sf-grid">
+				<p class="sf-loading">Loading posts…</p>
+			  </div>
+			</div>
+			
+		</div>
 
 		<div class="lg-footer">© lyrical.garden (but not actually) 🌱</div>
 	</div>
 </body>
-
-
-
+  
 <script src="/quotes.js"></script>
 <script>showRandomQuote("lg-sub-small");</script>
+<script src="/substack.js"></script>
