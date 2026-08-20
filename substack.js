@@ -19,6 +19,7 @@ var grid = document.querySelector("#substack-feed .sf-grid");
 // Pulls the first image out of a post's HTML content, since
 // Substack doesn't always populate the RSS "thumbnail" field.
 function findImage(item) {
+if (item.enclosure && item.enclosure.link) return item.enclosure.link;
 if (item.thumbnail && item.thumbnail.indexOf("data:") !== 0) return item.thumbnail;
 if (!item.description) return null;
 
