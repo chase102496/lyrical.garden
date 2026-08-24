@@ -28,44 +28,6 @@
 }
 
 /* ==========================================================================
-   MOBILE FORMATTING
-   ========================================================================== */
-
-@media (max-width: 600px) {
-    .lg-nav {
-        padding: 1rem 1.25rem;
-        gap: 1rem;
-    }
-
-    .lg-title-small {
-        font-size: 1.3rem;
-    }
-
-    .lg-sub-small {
-        font-size: 0.65rem;
-    }
-
-    #substack-feed .sf-card {
-        flex-direction: column;
-    }
-
-    #substack-feed .sf-thumb-wrap {
-        width: 100%;
-        flex: 0 0 auto;
-        aspect-ratio: 16 / 9;
-    }
-
-    .lg-corner {
-        width: 20px;
-    }
-
-    .lg-corner-bl,
-    .lg-corner-br {
-        bottom: 0;
-    }
-}
-
-/* ==========================================================================
    SUBSTACK FORMATTING
    ========================================================================== */
 
@@ -200,8 +162,8 @@
 
 .lg-corner-tl { top: 0; left: 0; }
 .lg-corner-tr { top: 0; right: 0; transform: scaleX(-1); }
-.lg-corner-bl { bottom: 65px; left: 0; transform: scaleY(-1); }
-.lg-corner-br { bottom: 65px; right: 0; transform: scale(-1, -1); }
+.lg-corner-bl { bottom: 0; left: 0; transform: scaleY(-1); }
+.lg-corner-br { bottom: 0; right: 0; transform: scale(-1, -1); }
 
 /* ==========================================================================
    FONT DECLARATIONS
@@ -514,4 +476,42 @@ body {
     font-size: 0.75rem;
     font-family: 'DM Mono', monospace;
     color: var(--color-cream-44);
+}
+
+/* ==========================================================================
+   MOBILE FORMATTING
+   ========================================================================== */
+
+@media (max-width: 600px) {
+    .lg-nav {
+        padding: 1rem 1.25rem;
+        gap: 1rem;
+    }
+
+    .lg-title-small {
+        font-size: 1.3rem;
+    }
+
+    .lg-sub-small {
+        font-size: 0.65rem;
+    }
+
+    #substack-feed .sf-card {
+        flex-direction: column;
+    }
+
+    #substack-feed .sf-thumb-wrap {
+        width: 100%;
+        flex: 0 0 auto;
+        aspect-ratio: 16 / 9;
+    }
+
+    .lg-corner {
+        width: 70px;
+    }
+
+    .lg-corner-bl,
+    .lg-corner-br {
+        bottom: 0;
+    }
 }
