@@ -54,6 +54,15 @@
         flex: 0 0 auto;
         aspect-ratio: 16 / 9;
     }
+
+    .lg-corner {
+        width: 20px;
+    }
+
+    .lg-corner-bl,
+    .lg-corner-br {
+        bottom: 0;
+    }
 }
 
 /* ==========================================================================
