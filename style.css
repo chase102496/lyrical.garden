@@ -292,6 +292,14 @@ body {
     border-bottom: 2px solid var(--color-green-44);
 }
 
+.lg-nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+}
+
 .lg-nav a {
     color: var(--color-amber);
     text-decoration: none;
