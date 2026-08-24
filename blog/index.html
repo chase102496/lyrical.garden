@@ -2,9 +2,8 @@
 	<link rel="stylesheet" href="/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🪀 lyrical.garden</title>
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    <meta name="description" content="A quiet corner for music, games, and wandering thoughts.">
+    <title>lyrical.garden</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png">
     <meta name="theme-color" content="#101d30">
 </head>
 
@@ -26,13 +25,19 @@
 			</div>
 
 			<a href="/" class="lg-card-link">
-				<span class="lg-card-compact">🏠 home</span>
+				<div class="lg-card lg-card-nav">
+					<div class="lg-card-image home"></div>
+				</div>
 			</a>
 			<a href="/music/" class="lg-card-link">
-				<span class="lg-card-compact">🎵 music</span>
+				<div class="lg-card lg-card-nav">
+					<div class="lg-card-image music"></div>
+				</div>
 			</a>
 			<a href="/garden/" class="lg-card-link">
-				<span class="lg-card-compact">🌿 garden</span>
+				<div class="lg-card lg-card-nav">
+					<div class="lg-card-image garden"></div>
+				</div>
 			</a>
 		</nav>
 		
@@ -49,7 +54,11 @@
 		<div class="lg-footer">© lyrical.garden (but not actually) 🌱</div>
 	</div>
 </body>
-  
+
+<img src="/images/corner.png" class="lg-corner lg-corner-tl" alt="">
+<img src="/images/corner.png" class="lg-corner lg-corner-tr" alt="">
+<img src="/images/corner.png" class="lg-corner lg-corner-bl" alt="">
+<img src="/images/corner.png" class="lg-corner lg-corner-br" alt="">
 <script src="/quotes.js"></script>
 <script>showRandomQuote("lg-sub-small");</script>
 <script src="/substack.js"></script>

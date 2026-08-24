@@ -2,139 +2,197 @@
    COLOR PALETTE
    ========================================================================== */
 
-/*
-   #101d30   — deep night blue, main background
-   #07951b   — garden green, accents/borders/buttons (often used with
-               alpha suffixes like 18/22/30/33/44/55/66 for transparency)
-   #ffe7c3   — pale cream, primary text color (also used with alpha
-               suffixes like 44/88/aa for transparency)
-   #eec482   — warm amber, secondary text / links / subtitles
-   #ffa599   — soft coral pink, hover states / highlighted strong text
-   #331f00   — dark brown, code block background
-   #b3b300   — olive yellow, hover border accent on cards
-   rgba(16, 29, 48, 0.92) — lightbox overlay (same as #101d30, just with opacity)
-*/
+:root {
+    /* Base colors */
+    --color-bg: #101d30;
+    --color-green: #07951b;
+    --color-cream: #ffe7c3;
+    --color-amber: #eec482;
+    --color-coral: #ffa599;
+    --color-brown: #331f00;
+    --color-olive: #b3b300;
+    --color-overlay: rgba(16, 29, 48, 0.92);
+
+    /* Green alpha variants */
+    --color-green-18: #07951b18;
+    --color-green-30: #07951b30;
+    --color-green-33: #07951b33;
+    --color-green-44: #07951b44;
+    --color-green-55: #07951b55;
+    --color-green-66: #07951b66;
+
+    /* Cream alpha variants */
+    --color-cream-44: #ffe7c344;
+    --color-cream-88: #ffe7c388;
+    --color-cream-aa: #ffe7c3aa;
+}
+
+/* ==========================================================================
+   MOBILE FORMATTING
+   ========================================================================== */
+
+@media (max-width: 600px) {
+    .lg-nav {
+        padding: 1rem 1.25rem;
+        gap: 1rem;
+    }
+
+    .lg-title-small {
+        font-size: 1.3rem;
+    }
+
+    .lg-sub-small {
+        font-size: 0.65rem;
+    }
+
+    #substack-feed .sf-card {
+        flex-direction: column;
+    }
+
+    #substack-feed .sf-thumb-wrap {
+        width: 100%;
+        flex: 0 0 auto;
+        aspect-ratio: 16 / 9;
+    }
+}
 
 /* ==========================================================================
    SUBSTACK FORMATTING
    ========================================================================== */
 
 #substack-feed {
---sf-bg: #101d30;
---sf-card-bg: #07951b18;
---sf-card-border: #07951b66;
---sf-accent: #eec482;
---sf-accent-glow: #eec482;
---sf-title: #f5c98a;
---sf-text: #b8c4d4;
---sf-text-dim: #6d7d93;
---sf-font-title: "Lilita One", serif;
---sf-font-body: "DM Mono", monospace;
---sf-radius: 20px;
+    --sf-bg: var(--color-bg);
+    --sf-card-bg: var(--color-green-18);
+    --sf-card-border: var(--color-green-66);
+    --sf-accent: var(--color-amber);
+    --sf-accent-glow: var(--color-amber);
+    --sf-title: #f5c98a;
+    --sf-text: #b8c4d4;
+    --sf-text-dim: #6d7d93;
+    --sf-font-title: "Lilita One", serif;
+    --sf-font-body: "DM Mono", monospace;
+    --sf-radius: 20px;
 
-background: var(--sf-bg);
-padding: 2.5rem 1.5rem;
+    background: var(--sf-bg);
+    padding: 2.5rem 1.5rem;
 }
 
 #substack-feed .sf-grid {
-max-width: 700px;
-margin: 0 auto;
-display: flex;
-flex-direction: column;
-gap: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
 #substack-feed .sf-card {
-background: var(--sf-card-bg);
-border: 2px solid var(--sf-card-border);
-border-radius: var(--sf-radius);
-overflow: hidden;
-display: flex;
-flex-direction: row;
-text-decoration: none;
-transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    background: var(--sf-card-bg);
+    border: 2px solid var(--sf-card-border);
+    border-radius: var(--sf-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 #substack-feed .sf-card:hover {
-transform: translateY(-2px);
-border-color: var(--sf-accent);
-box-shadow: 0 8px 24px var(--sf-accent-glow);
+    transform: translateY(-6px);
+    border-color: var(--sf-accent);
+    box-shadow: 0 8px 24px var(--sf-accent-glow);
 }
 
 #substack-feed .sf-thumb-wrap {
-flex: 0 0 160px;
-width: 160px;
-aspect-ratio: 1 / 1;
-background: linear-gradient(135deg, #16283f, #0a1628);
-overflow: hidden;
-display: flex;
-align-items: center;
-justify-content: center;
+    flex: 0 0 160px;
+    width: 160px;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, #16283f, #0a1628);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #substack-feed .sf-thumb-wrap img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 #substack-feed .sf-thumb-fallback {
-font-size: 2rem;
-opacity: 0.35;
+    font-size: 2rem;
+    opacity: 0.35;
 }
 
 #substack-feed .sf-body {
-padding: 1.25rem 1.4rem 1.5rem;
-display: flex;
-flex-direction: column;
-flex: 1;
+    padding: 1.25rem 1.4rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 #substack-feed .sf-title {
-font-family: var(--sf-font-title);
-font-weight: 700;
-font-size: 1.2rem;
-color: var(--sf-title);
-margin: 0 0 0.5rem 0;
-line-height: 1.3;
+    font-family: var(--sf-font-title);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--sf-title);
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
 }
 
 #substack-feed .sf-date {
-font-family: var(--sf-font-body);
-font-size: 0.75rem;
-letter-spacing: 0.04em;
-text-transform: uppercase;
-color: var(--sf-text-dim);
-margin-bottom: 0.7rem;
+    font-family: var(--sf-font-body);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--sf-text-dim);
+    margin-bottom: 0.7rem;
 }
 
 #substack-feed .sf-excerpt {
-font-family: var(--sf-font-body);
-font-size: 0.9rem;
-line-height: 1.55;
-color: var(--sf-text);
-margin: 0;
+    font-family: var(--sf-font-body);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--sf-text);
+    margin: 0;
 }
 
 #substack-feed .sf-readmore {
-margin-top: 1rem;
-font-family: var(--sf-font-body);
-font-size: 0.8rem;
-font-weight: 600;
-color: var(--sf-accent);
-letter-spacing: 0.03em;
+    margin-top: 1rem;
+    font-family: var(--sf-font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--sf-accent);
+    letter-spacing: 0.03em;
 }
 
 #substack-feed .sf-loading,
 #substack-feed .sf-error {
-grid-column: 1 / -1;
-text-align: center;
-font-family: var(--sf-font-body);
-color: var(--sf-text-dim);
-font-style: italic;
-padding: 2rem 0;
+    grid-column: 1 / -1;
+    text-align: center;
+    font-family: var(--sf-font-body);
+    color: var(--sf-text-dim);
+    font-style: italic;
+    padding: 2rem 0;
 }
+
+/* ==========================================================================
+   CORNER IMAGES
+   ========================================================================== */
+
+.lg-corner {
+    position: fixed;
+    width: 130px;
+    height: auto;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.lg-corner-tl { top: 0; left: 0; }
+.lg-corner-tr { top: 0; right: 0; transform: scaleX(-1); }
+.lg-corner-bl { bottom: 65px; left: 0; transform: scaleY(-1); }
+.lg-corner-br { bottom: 65px; right: 0; transform: scale(-1, -1); }
 
 /* ==========================================================================
    FONT DECLARATIONS
@@ -175,7 +233,6 @@ padding: 2rem 0;
     font-style: normal;
 }
 
-
 /* ==========================================================================
    RESET / BASE
    ========================================================================== */
@@ -186,48 +243,22 @@ padding: 2rem 0;
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;
-    background: #101d30;
+    background: var(--color-bg);
 }
-
 
 /* ==========================================================================
    UTILITIES
    ========================================================================== */
 
 .green {
-    color: #07951b;
-}
-
-
-/* ==========================================================================
-   LIGHTBOX (Magnifying Glass/Zoom on photos)
-   ========================================================================== */
-
-.lg-lightbox-overlay {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(16, 29, 48, 0.92);
-	z-index: 1000;
-	justify-content: center;
-	align-items: center;
-	cursor: zoom-out;
-}
-
-.lg-lightbox-overlay.active {
-	display: flex;
-}
-
-.lg-lightbox-overlay img {
-	max-width: 90vw;
-	max-height: 90vh;
-	border-radius: 12px;
+    color: var(--color-green);
 }
 
 /* ==========================================================================
@@ -259,42 +290,22 @@ body {
     50%      { transform: translateY(-4px); }
 }
 
-
-/* ==========================================================================
-   LINKS
-   ========================================================================== */
-
-.lg-card a,
-.lg-cards a {
-    color: #eec482;
-    text-decoration: none;
-}
-
-.lg-card a:hover {
-    color: #ffa599;
-}
-
-.lg-card-link {
-    text-decoration: none;
-    color: inherit;
-}
-
-
 /* ==========================================================================
    LAYOUT: ROOT
    ========================================================================== */
 
 .lg-root {
-    background: #101d30;
-    min-height: 600px;
+    background: var(--color-bg);
+    min-height: 100vh;
     padding: 0;
-    color: #ffe7c3;
+    color: var(--color-cream);
     font-family: 'Lilita One', sans-serif;
+    display: flex;
     text-align: center;
+    flex-direction: column;
     justify-content: center;
-	align-items: center;
+    align-items: center;
 }
-
 
 /* ==========================================================================
    LAYOUT: NAV
@@ -304,14 +315,14 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-	align-items: center;
+    align-items: center;
     gap: 2.5rem;
     padding: 1rem 4rem;
-    border-bottom: 2px solid #07951b44;
+    border-bottom: 2px solid var(--color-green-44);
 }
 
 .lg-nav a {
-    color: #eec482;
+    color: var(--color-amber);
     text-decoration: none;
     font-size: 15px;
     font-weight: 400;
@@ -320,9 +331,8 @@ body {
 }
 
 .lg-nav a:hover {
-    color: #ffa599;
+    color: var(--color-coral);
 }
-
 
 /* ==========================================================================
    LAYOUT: HERO
@@ -335,24 +345,11 @@ body {
     padding: 3rem 2rem 2rem;
 }
 
-.lg-fox {
-    width: 110px;
-    height: 110px;
-    margin-bottom: 1.5rem;
-    border-radius: 50%;
-    background: #07951b22;
-    border: 2px solid #07951b66;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 60px;
-}
-
 .lg-title {
     font-size: 3.0rem;
     font-weight: 900;
     font-family: 'Bevellier', sans-serif;
-    color: #ffe7c3;
+    color: var(--color-cream);
     margin: 0 0 0.5rem;
     letter-spacing: 0.02em;
 }
@@ -361,7 +358,7 @@ body {
     font-size: 1.75rem;
     font-weight: 600;
     font-family: 'Bevellier', sans-serif;
-    color: #ffe7c3;
+    color: var(--color-cream);
     margin: 0 0 0.5rem;
     letter-spacing: 0.05em;
 }
@@ -369,9 +366,9 @@ body {
 .lg-sub {
     font-size: 0.75rem;
     font-weight: 400;
-	font-family: 'DM Mono', monospace;
+    font-family: 'DM Mono', monospace;
     font-style: italic;
-    color: #eec482;
+    color: var(--color-amber);
     margin: 0 0 2rem;
 }
 
@@ -380,7 +377,7 @@ body {
     font-weight: 400;
     font-family: 'DM Mono', monospace;
     font-style: italic;
-    color: #eec482;
+    color: var(--color-amber);
     margin: 0 0 1rem;
 }
 
@@ -388,7 +385,7 @@ body {
     width: 60px;
     height: 1px;
     margin: 0 auto 2.5rem;
-    background: #07951b;
+    background: var(--color-green);
 }
 
 /* ==========================================================================
@@ -411,54 +408,36 @@ body {
     margin-bottom: 1.5rem;
     padding: 0.5rem 0.75rem;
     border-radius: 20px;
-    border: 2px solid #07951b55;
-    background: #07951b33;
-    color: #07951b;
+    border: 2px solid var(--color-green-55);
+    background: var(--color-green-33);
+    color: var(--color-green);
     font-size: 1rem;
     font-family: 'DM Mono', monospace;
     text-decoration: none;
     transition: background 0.2s, border-color 0.2s, color 0.2s;
     cursor: pointer;
-}
-
-.lg-card-corner {
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    margin-left: 1.5rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 20px;
-    border: 2px solid #07951b55;
-    background: #07951b33;
-    color: #07951b;
-    font-size: 1rem;
-    font-family: 'DM Mono', monospace;
-    text-decoration: none;
-    transition: background 0.2s, border-color 0.2s, color 0.2s;
-    cursor: pointer;
-}
-.lg-card {
-    padding: 1.25rem 1rem;
-    border-radius: 12px;
-    border: 2px solid #07951b44;
-    background: #07951b18;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-	text-decoration: none;
-}
-
-.lg-card:hover {
-    background: #07951b30;
-    border-color: #b3b300;
-}
-
-.lg-card-corner:hover {
-    background: #07951b30;
-    border-color: #b3b300;
 }
 
 .lg-card-compact:hover {
-    background: #07951b30;
-    border-color: #b3b300;
+    background: var(--color-green-30);
+    border-color: var(--color-olive);
+}
+
+.lg-card {
+    padding: 1.25rem 1rem;
+    border-radius: 12px;
+    border: 2px solid var(--color-green-44);
+    background: var(--color-green-18);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    text-decoration: none;
+}
+
+.lg-card:hover {
+    transform: translateY(-6px);
+    background: var(--color-green-30);
+    border-color: var(--color-olive);
+    box-shadow: 0 8px 24px var(--color-olive);
 }
 
 .lg-card-icon {
@@ -469,7 +448,7 @@ body {
 .lg-card-title {
     font-size: 1rem;
     font-weight: 300;
-    color: #eec482;
+    color: var(--color-amber);
     margin: 0 0 0.25rem;
 }
 
@@ -477,39 +456,53 @@ body {
     font-size: 0.75rem;
     font-weight: 300;
     font-family: 'DM Mono', monospace;
-    color: #ffe7c388;
+    color: var(--color-cream-88);
     margin: 0;
 }
 
-.lg-card-row {
-	display: flex;
-	align-items: center;
-	gap: 1rem;
-	text-align: left;
+.lg-card-link {
+    text-decoration: none;
+    color: inherit;
 }
 
-.lg-card-thumb {
-	width: 60px;
-	height: 60px;
-	border-radius: 8px;
-	object-fit: cover;
-	flex-shrink: 0;
+.lg-card-image {
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto 0.5rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.lg-card-text {
-	display: flex;
-	flex-direction: column;
+.lg-card-image.music  { background-image: url('images/card-image-music.png'); }
+.lg-card-image.garden { background-image: url('images/card-image-garden.png'); }
+.lg-card-image.blog   { background-image: url('images/card-image-blog.png'); }
+.lg-card-image.home   { background-image: url('images/card-image-home.png'); }
+
+.lg-card-nav {
+    width: 5rem;
+    height: 5rem;
+    padding: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.lg-card-nav .lg-card-image {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
 
 /* ==========================================================================
    LAYOUT: FOOTER
    ========================================================================== */
 
 .lg-footer {
+    margin-top: auto;
     padding: 1.5rem;
-    border-top: 1px solid #07951b33;
+    border-top: 1px solid var(--color-green-33);
     font-size: 0.75rem;
     font-family: 'DM Mono', monospace;
-    color: #ffe7c344;
+    color: var(--color-cream-44);
 }
