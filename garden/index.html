@@ -46,13 +46,16 @@
 			</div>
 		</nav>
 		
-		<section class="game-embed">
+		<div class="game-embed">
 			<iframe
 				src="/garden/lyrical.garden/lyrical.garden.html"
 				class="game-frame"
-				allowfullscreen
-		    ></iframe>
-		</section>
+				allowfullscreen allow="fullscreen"
+			></iframe>
+			<button id="fullscreen-btn" class="fullscreen-btn" aria-label="Fullscreen">
+				⛶
+			</button>
+		</div>
 
 		<div class="lg-footer">© lyrical.garden (but not actually) 🌱</div>
 	</div>
@@ -64,3 +67,14 @@
 <img src="/images/corner.png" class="lg-corner lg-corner-br" alt="">
 <script src="/quotes.js"></script>
 <script>showRandomQuote("lg-sub-small");</script>
+
+<script>
+	document.getElementById('fullscreen-btn').addEventListener('click', () => {
+	const frame = document.querySelector('.game-frame');
+	if (frame.requestFullscreen) {
+	frame.requestFullscreen();
+	} else if (frame.webkitRequestFullscreen) {
+	frame.webkitRequestFullscreen();
+	}
+	});
+</script>
